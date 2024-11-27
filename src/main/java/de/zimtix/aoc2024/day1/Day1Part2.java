@@ -4,13 +4,13 @@ import de.zimtix.aoc2024.Puzzle;
 
 import java.util.List;
 
-public class Day1 extends Puzzle {
-    public Day1(List<String> lines) {
+public class Day1Part2 extends Puzzle {
+    public Day1Part2(List<String> lines) {
         super(lines);
     }
 
     @Override
-    public <T> T getResult() {
+    public Object getResult() {
         return null;
     }
 }
