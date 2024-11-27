@@ -4,8 +4,8 @@ import de.zimtix.aoc2024.Puzzle;
 
 import java.util.List;
 
-public class Day1 extends Puzzle {
-    public Day1(List<String> lines) {
+public class Day1Part1 extends Puzzle {
+    public Day1Part1(List<String> lines) {
         super(lines);
     }
 
