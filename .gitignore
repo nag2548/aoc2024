@@ -18,3 +18,5 @@ buildNumber.properties
 # Intellij 
 *.iml
 .idea/
+
+real.txt

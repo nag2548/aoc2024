@@ -9,5 +9,5 @@ public abstract class Puzzle {
         this.lines = lines;
     }
 
-    public abstract <T> T getResult();
+    public abstract Object getResult();
 }
