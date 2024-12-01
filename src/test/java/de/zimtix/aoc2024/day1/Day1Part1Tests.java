@@ -8,12 +8,12 @@ import java.util.List;
 class Day1Part1Tests extends PuzzleTest {
     @Override
     protected String getSampleInputFile() {
-        return "day1/sample_part1.txt";
+        return "day1/sample.txt";
     }
 
     @Override
     protected String getRealInputFile() {
-        return "day1/real_part1.txt";
+        return "day1/real.txt";
     }
 
     @Override
