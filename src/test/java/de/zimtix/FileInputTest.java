@@ -1,7 +1,6 @@
 package de.zimtix;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
@@ -12,7 +11,7 @@ public interface FileInputTest {
     default List<String> readLines(String path) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(requireNonNull(getClass().getClassLoader().getResourceAsStream(path))))) {
             return reader.lines().toList();
-        } catch (IOException e) {
+        } catch (Exception e) {
             fail("Could not read input file " + path, e);
             return null;
         }
