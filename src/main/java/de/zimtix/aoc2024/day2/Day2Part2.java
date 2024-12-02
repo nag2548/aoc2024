@@ -55,12 +55,8 @@ public class Day2Part2 extends Day2 {
     }
 
     private boolean isSafeWithOneRemoval(List<Integer> levels, int faultyIndex) {
-        int startIndex = faultyIndex - 1;
-        for (int i = 0; i < levels.size(); i++) {
-            if (i < startIndex) {
-                continue;
-            }
-
+        int startIndex = Math.max(faultyIndex - 1, 0);
+        for (int i = startIndex; i < levels.size(); i++) {
             List<Integer> newLevels = new ArrayList<>();
             for (int j = 0; j < levels.size(); j++) {
                 if (j != i) {
