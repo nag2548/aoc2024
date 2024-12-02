@@ -9,15 +9,16 @@ public abstract class Day2 extends Puzzle {
         super(lines);
     }
 
-    protected boolean isSafe(List<Integer> levels) {
+    protected int findFaultyIndex(List<Integer> levels) {
         boolean isIncreasing = true;
         boolean isDecreasing = true;
 
         for (int i = 1; i < levels.size(); i++) {
             int diff = levels.get(i) - levels.get(i - 1);
+            int delta = Math.abs(diff);
 
-            if (Math.abs(diff) < 1 || Math.abs(diff) > 3) {
-                return false;
+            if (delta < 1 || delta > 3) {
+                return i - 1;
             }
 
             if (diff > 0) {
@@ -26,8 +27,11 @@ public abstract class Day2 extends Puzzle {
             if (diff < 0) {
                 isIncreasing = false;
             }
+            if (!isIncreasing && !isDecreasing) {
+                return i - 1;
+            }
         }
 
-        return isIncreasing || isDecreasing;
+        return -1;
     }
 }

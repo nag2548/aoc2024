@@ -19,7 +19,7 @@ public class Day2Part1 extends Day2 {
         int safeReport = 0;
 
         for (List<Integer> levels : levelList) {
-            if (isSafe(levels)) {
+            if (findFaultyIndex(levels) == -1) {
                 safeReport++;
             }
         }

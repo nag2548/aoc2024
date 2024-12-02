@@ -20,7 +20,8 @@ public class Day2Part2 extends Day2 {
         int safeCount = 0;
 
         for (List<Integer> levels : levelList) {
-            if (isSafe(levels) || isSafeWithOneRemoval(levels)) {
+            int faultyIndex = findFaultyIndex(levels);
+            if (faultyIndex == -1 || isSafeWithOneRemoval(levels, faultyIndex)) {
                 safeCount++;
             }
         }
@@ -28,17 +29,21 @@ public class Day2Part2 extends Day2 {
         return safeCount;
     }
 
-    private boolean isSafeWithOneRemoval(List<Integer> levels) {
+    private boolean isSafeWithOneRemoval(List<Integer> levels, int faultyIndex) {
+        int startIndex = faultyIndex - 1;
         for (int i = 0; i < levels.size(); i++) {
-            List<Integer> newLevels = new ArrayList<>(levels.size() - 1);
+            if (i < startIndex) {
+                continue;
+            }
 
+            List<Integer> newLevels = new ArrayList<>();
             for (int j = 0; j < levels.size(); j++) {
                 if (j != i) {
                     newLevels.add(levels.get(j));
                 }
             }
 
-            if (isSafe(newLevels)) {
+            if (findFaultyIndex(newLevels) == -1) {
                 return true;
             }
         }
