@@ -8,4 +8,12 @@ public abstract class Day3 extends Puzzle {
     public Day3(List<String> lines) {
         super(lines);
     }
+
+    @Override
+    public Object getResult() {
+        String line = String.join("\n", lines);
+        return getLineResult(line);
+    }
+
+    protected abstract int getLineResult(String line);
 }
