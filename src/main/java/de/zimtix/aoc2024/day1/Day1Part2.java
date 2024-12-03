@@ -22,11 +22,7 @@ public class Day1Part2 extends Day1 {
         Map<Integer, Long> secondListOccurrenceMap = secondList.stream()
                 .collect(groupingBy(identity(), counting()));
 
-        int result = 0;
-        for (Integer first : firstList) {
-            result += (int) (secondListOccurrenceMap.getOrDefault(first, 0L) * first);
-        }
-
-        return result;
+        return firstList.stream()
+                .reduce(0, (a, b) -> (int) (a + b * secondListOccurrenceMap.getOrDefault(b, 0L)));
     }
 }
