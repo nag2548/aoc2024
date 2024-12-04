@@ -5,7 +5,7 @@ import de.zimtix.aoc2024.PuzzleTest;
 
 import java.util.List;
 
-class Day4Part1Test extends PuzzleTest {
+class Day4Part2Tests extends PuzzleTest {
     @Override
     protected String getSampleInputFile() {
         return "day4/sample.txt";
@@ -18,16 +18,16 @@ class Day4Part1Test extends PuzzleTest {
 
     @Override
     protected Object getExpectedSampleResult() {
-        return null;
+        return 9;
     }
 
     @Override
     protected Object getExpectedRealResult() {
-        return null;
+        return 2046;
     }
 
     @Override
     protected Puzzle getComponent(List<String> lines) {
-        return new Day4Part1(lines);
+        return new Day4Part2(lines);
     }
 }
