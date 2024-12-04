@@ -8,7 +8,7 @@ import java.util.List;
 class Day3Part2Tests extends PuzzleTest {
     @Override
     protected String getSampleInputFile() {
-        return "day3/sample2.txt";
+        return "day3/sample.txt";
     }
 
     @Override
