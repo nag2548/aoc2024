@@ -23,6 +23,6 @@ public class Day5Part1 extends Day5 {
     }
 
     private boolean checkPages(List<Integer> pages) {
-        return checkForBadPage(pages) == -1;
+        return checkForBadPage(pages) == null;
     }
 }

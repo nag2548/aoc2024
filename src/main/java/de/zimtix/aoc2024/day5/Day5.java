@@ -1,15 +1,17 @@
 package de.zimtix.aoc2024.day5;
 
 import de.zimtix.aoc2024.Puzzle;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 
 import static java.lang.Integer.parseInt;
-import static java.lang.Math.min;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.split;
 
@@ -37,27 +39,29 @@ public abstract class Day5 extends Puzzle {
                 rules.computeIfAbsent(parseInt(split[0]), k -> new ArrayList<>()).add(parseInt(split[1]));
             } else {
                 List<Integer> pages = Arrays.stream(split(line, ',')).map(Integer::parseInt).toList();
-                pagesList.add(pages.reversed());
+                pagesList.add(pages);
             }
         }
     }
 
-    protected int checkForBadPage(List<Integer> pages) {
+    protected Pair<Integer, Integer> checkForBadPage(List<Integer> pages) {
         return checkForBadPage(pages, 0);
     }
 
-    protected int checkForBadPage(List<Integer> pages, int startIndex) {
+    protected Pair<Integer, Integer> checkForBadPage(List<Integer> pages, int startIndex) {
         for (int i = startIndex; i < pages.size(); i++) {
             List<Integer> rulesForPage = rules.get(pages.get(i));
             if (rulesForPage == null) {
                 continue;
             }
 
-            List<Integer> nextPages = pages.subList(min(i + 1, pages.size() - 1), pages.size());
-            if (nextPages.stream().anyMatch(rulesForPage::contains)) {
-                return i;
+            List<Integer> previousPages = pages.subList(0, i);
+            OptionalInt pageIndexWithViolatedRule =
+                    IntStream.range(0, previousPages.size()).filter(j -> rulesForPage.contains(previousPages.get(j))).findFirst();
+            if (pageIndexWithViolatedRule.isPresent()) {
+                return Pair.of(i, pageIndexWithViolatedRule.getAsInt());
             }
         }
-        return -1;
+        return null;
     }
 }

@@ -1,5 +1,7 @@
 package de.zimtix.aoc2024.day5;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +16,8 @@ public class Day5Part2 extends Day5 {
 
         int result = 0;
         for (List<Integer> pages : pagesList) {
-            int badPage = checkForBadPage(pages);
-            if (badPage != -1) {
-                List<Integer> reorderedPages = reorderPages(pages, badPage);
+            if (checkForBadPage(pages) != null) {
+                List<Integer> reorderedPages = reorderPages(pages);
                 result += reorderedPages.get(reorderedPages.size() / 2);
             }
         }
@@ -24,18 +25,21 @@ public class Day5Part2 extends Day5 {
         return result;
     }
 
-    private List<Integer> reorderPages(List<Integer> pages, int badPage) {
+    private List<Integer> reorderPages(List<Integer> pages) {
         List<Integer> reorderedPages = new ArrayList<>(pages);
 
-        int startIndex = badPage;
+        int index = 0;
         while (true) {
-            int badIndex = checkForBadPage(reorderedPages, startIndex);
-            if (badIndex == -1) {
+            Pair<Integer, Integer> pagePair = checkForBadPage(reorderedPages, index);
+            if (pagePair == null) {
                 break;
             }
-            startIndex = badIndex;
-            Integer removedPage = reorderedPages.remove(badIndex);
-            reorderedPages.add(removedPage);
+
+            int badPageIndex = pagePair.getLeft();
+            int violatedPageIndex = pagePair.getRight();
+            int removedPage = reorderedPages.remove(badPageIndex);
+            reorderedPages.add(violatedPageIndex, removedPage);
+            index = violatedPageIndex + 1;
         }
 
         return reorderedPages;

@@ -1,9 +1,15 @@
 package de.zimtix.aoc2024;
 
 import de.zimtix.FileInputTest;
-import de.zimtix.aoc2024.day5.Day5Part1;
+import de.zimtix.aoc2024.day5.Day5Part2;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.openjdk.jmh.annotations.*;
+import org.openjdk.jmh.annotations.Benchmark;
+import org.openjdk.jmh.annotations.Level;
+import org.openjdk.jmh.annotations.Mode;
+import org.openjdk.jmh.annotations.Scope;
+import org.openjdk.jmh.annotations.Setup;
+import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
@@ -13,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class AocBenchmark implements FileInputTest {
+    @Disabled
     @Test
     public void launchBenchmark() throws Exception {
         Options opt = new OptionsBuilder()
@@ -44,7 +51,7 @@ public class AocBenchmark implements FileInputTest {
 
     @Benchmark
     public void benchmark1(BenchmarkState state) {
-        Day5Part1 cut = new Day5Part1(state.lines);
+        Day5Part2 cut = new Day5Part2(state.lines);
         cut.getResult();
     }
 }
