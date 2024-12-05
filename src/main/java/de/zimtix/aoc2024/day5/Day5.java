@@ -2,7 +2,11 @@ package de.zimtix.aoc2024.day5;
 
 import de.zimtix.aoc2024.Puzzle;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.Math.min;
@@ -39,7 +43,11 @@ public abstract class Day5 extends Puzzle {
     }
 
     protected int checkForBadPage(List<Integer> pages) {
-        for (int i = 0; i < pages.size(); i++) {
+        return checkForBadPage(pages, 0);
+    }
+
+    protected int checkForBadPage(List<Integer> pages, int startIndex) {
+        for (int i = startIndex; i < pages.size(); i++) {
             List<Integer> rulesForPage = rules.get(pages.get(i));
             if (rulesForPage == null) {
                 continue;
