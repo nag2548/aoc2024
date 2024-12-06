@@ -28,19 +28,23 @@ public class Day6LoopDetector {
             }
             previousNode = newHead;
 
-            Day6Coordinate nextCoordinate = new Day6Coordinate(coordinate.x() + currentDirection.getX(), coordinate.y() + currentDirection.getY());
-            if (nextCoordinate.x() < 0 || nextCoordinate.y() < 0 || nextCoordinate.x() >= fields.length || nextCoordinate.y() >= fields[0].length) {
-                return false;
-            }
+            Day6Field nextPossibleField;
+            Day6Coordinate nextCoordinate;
+            do {
+                nextCoordinate = new Day6Coordinate(coordinate.x() + currentDirection.getX(), coordinate.y() + currentDirection.getY());
+                if (nextCoordinate.x() < 0 || nextCoordinate.y() < 0 || nextCoordinate.x() >= fields.length || nextCoordinate.y() >= fields[0].length) {
+                    return false;
+                }
+                nextPossibleField = fields[nextCoordinate.x()][nextCoordinate.y()];
+                if (nextPossibleField.getType() == Day6FieldType.OBSTACLE) {
+                    currentDirection = directions.get((directions.indexOf(currentDirection) + 1) % directions.size());
+                }
+            } while (nextPossibleField.getType() == Day6FieldType.OBSTACLE);
+
+            coordinate = nextCoordinate;
+            
             if (detectLoop(head)) {
                 return true;
-            }
-
-            Day6Field nextPossibleField = fields[nextCoordinate.x()][nextCoordinate.y()];
-            if (nextPossibleField.getType() == Day6FieldType.OBSTACLE) {
-                currentDirection = directions.get((directions.indexOf(currentDirection) + 1) % directions.size());
-            } else {
-                coordinate = nextCoordinate;
             }
         }
     }
