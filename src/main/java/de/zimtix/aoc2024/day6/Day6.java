@@ -35,27 +35,36 @@ public abstract class Day6 extends Puzzle {
         Set<Day6Coordinate> visitedFields = new HashSet<>();
 
         Day6Coordinate coordinate = start.getCoordinate();
-        outerloop:
-        while (true) {
+        while (isInBounds(coordinate)) {
             Day6Field currentField = fields[coordinate.x()][coordinate.y()];
             visitedFields.add(currentField.getCoordinate());
 
-            Day6Field nextPossibleField;
-            Day6Coordinate nextCoordinate;
-            do {
-                nextCoordinate = new Day6Coordinate(coordinate.x() + currentDirection.getX(), coordinate.y() + currentDirection.getY());
-                if (nextCoordinate.x() < 0 || nextCoordinate.y() < 0 || nextCoordinate.x() >= fields.length || nextCoordinate.y() >= fields[0].length) {
-                    break outerloop;
-                }
-                nextPossibleField = fields[nextCoordinate.x()][nextCoordinate.y()];
-                if (nextPossibleField.getType() == Day6FieldType.OBSTACLE) {
-                    currentDirection = directions.get((directions.indexOf(currentDirection) + 1) % directions.size());
-                }
-            } while (nextPossibleField.getType() == Day6FieldType.OBSTACLE);
-
-            coordinate = nextCoordinate;
+            coordinate = move(coordinate);
         }
 
         return visitedFields;
+    }
+
+    private boolean isInBounds(Day6Coordinate coordinate) {
+        return coordinate.x() >= 0 && coordinate.y() >= 0 && coordinate.x() < fields.length && coordinate.y() < fields[0].length;
+    }
+
+    private Day6Coordinate move(Day6Coordinate coordinate) {
+        Day6Field nextPossibleField;
+        Day6Coordinate nextCoordinate;
+        do {
+            nextCoordinate = new Day6Coordinate(coordinate.x() + currentDirection.getX(), coordinate.y() + currentDirection.getY());
+            if (!isInBounds(nextCoordinate)) {
+                return nextCoordinate;
+            }
+
+            nextPossibleField = fields[nextCoordinate.x()][nextCoordinate.y()];
+            if (nextPossibleField.getType() == Day6FieldType.OBSTACLE) {
+                currentDirection = directions.get((directions.indexOf(currentDirection) + 1) % directions.size());
+            }
+
+        } while (nextPossibleField.getType() == Day6FieldType.OBSTACLE);
+
+        return nextCoordinate;
     }
 }

@@ -18,6 +18,7 @@ public class Day6LoopDetector {
         Day6Coordinate coordinate = start.getCoordinate();
         Day6Node head = null;
         Day6Node previousNode = null;
+
         while (true) {
             Day6Node newHead = new Day6Node(new Day6State(fields[coordinate.x()][coordinate.y()].getCoordinate(), currentDirection));
             if (head == null) {
@@ -42,7 +43,7 @@ public class Day6LoopDetector {
             } while (nextPossibleField.getType() == Day6FieldType.OBSTACLE);
 
             coordinate = nextCoordinate;
-            
+
             if (detectLoop(head)) {
                 return true;
             }
