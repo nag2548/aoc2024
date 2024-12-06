@@ -20,4 +20,8 @@ public class Day6Field {
     public Day6Coordinate getCoordinate() {
         return coordinate;
     }
+
+    public static Day6Field clone(Day6Field field) {
+        return new Day6Field(field.getType(), field.getCoordinate());
+    }
 }

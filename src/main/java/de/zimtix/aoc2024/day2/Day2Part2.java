@@ -7,7 +7,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Arrays.stream;
 import static org.apache.commons.lang3.StringUtils.split;
@@ -23,7 +22,7 @@ public class Day2Part2 extends Day2 {
                 .map(l -> stream(split(l, ' ')).map(Integer::parseInt).toList())
                 .toList();
 
-        AtomicInteger safeCount = new AtomicInteger(0);
+        int safeCount = 0;
 
         try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
             List<Callable<Boolean>> tasks = new ArrayList<>();
@@ -33,20 +32,16 @@ public class Day2Part2 extends Day2 {
             }
 
             List<Future<Boolean>> futures = executor.invokeAll(tasks);
-            futures.parallelStream().forEach(task -> {
-                try {
-                    if (task.get()) {
-                        safeCount.incrementAndGet();
-                    }
-                } catch (InterruptedException | ExecutionException e) {
-                    throw new RuntimeException(e);
+            for (Future<Boolean> future : futures) {
+                if (future.get()) {
+                    safeCount++;
                 }
-            });
-        } catch (InterruptedException e) {
+            }
+        } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
 
-        return safeCount.get();
+        return safeCount;
     }
 
     private boolean isSafe(List<Integer> levels) {
