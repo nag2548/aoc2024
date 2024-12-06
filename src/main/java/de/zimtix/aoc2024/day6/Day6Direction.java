@@ -4,7 +4,7 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 
-public enum Direction {
+public enum Day6Direction {
     UP(-1, 0),
     RIGHT(0, 1),
     DOWN(1, 0),
@@ -13,7 +13,7 @@ public enum Direction {
     private final int x;
     private final int y;
 
-    Direction(int x, int y) {
+    Day6Direction(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -26,7 +26,7 @@ public enum Direction {
         return y;
     }
 
-    public static List<Direction> getDirections() {
-        return asList(Direction.values());
+    public static List<Day6Direction> getDirections() {
+        return asList(Day6Direction.values());
     }
 }
