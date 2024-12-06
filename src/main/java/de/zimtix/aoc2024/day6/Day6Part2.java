@@ -2,8 +2,10 @@ package de.zimtix.aoc2024.day6;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Day6Part2 extends Day6 {
+
     public Day6Part2(List<String> lines) {
         super(lines);
     }
@@ -11,10 +13,17 @@ public class Day6Part2 extends Day6 {
     @Override
     public Object getResult() {
         init();
+        Day6Part1 day6Part1 = new Day6Part1(lines);
+        day6Part1.getResult();
+        Set<Day6Coordinate> visitedFields = day6Part1.getVisitedFields();
 
         int result = 0;
         for (Day6Field[] row : fields) {
             for (Day6Field field : row) {
+                if (!visitedFields.contains(field.getCoordinate())) {
+                    continue;
+                }
+
                 currentDirection = Day6Direction.UP;
 
                 Day6FieldType originalType = field.getType();

@@ -35,4 +35,8 @@ public class Day6Part1 extends Day6 {
 
         return visitedFields.size();
     }
+
+    public Set<Day6Coordinate> getVisitedFields() {
+        return visitedFields;
+    }
 }
