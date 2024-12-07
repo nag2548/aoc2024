@@ -1,14 +1,8 @@
 package de.zimtix.aoc2024.day6;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class Day6Part2 extends Day6 {
     public Day6Part2(List<String> lines) {
@@ -22,37 +16,23 @@ public class Day6Part2 extends Day6 {
         currentDirection = Day6Direction.UP;
 
         int result = 0;
+        for (Day6Field[] row : fields) {
+            for (Day6Field field : row) {
+                if (!visitedFields.contains(field.getCoordinate())) {
+                    continue;
+                }
 
-        try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
-            List<Callable<Boolean>> tasks = new ArrayList<>();
+                Day6FieldType originalType = field.getType();
+                if (originalType == Day6FieldType.NORMAL) {
+                    Day6Field[][] copy = getArrayCopy();
+                    copy[field.getCoordinate().x()][field.getCoordinate().y()].setType(Day6FieldType.OBSTACLE);
 
-            for (Day6Field[] row : fields) {
-                for (Day6Field field : row) {
-                    if (!visitedFields.contains(field.getCoordinate())) {
-                        continue;
-                    }
-
-                    Day6FieldType originalType = field.getType();
-                    if (originalType == Day6FieldType.NORMAL) {
-                        Day6Field[][] copy = getArrayCopy();
-                        copy[field.getCoordinate().x()][field.getCoordinate().y()].setType(Day6FieldType.OBSTACLE);
-
-                        tasks.add(() -> {
-                            Day6LoopDetector loopDetector = new Day6LoopDetector(copy, start);
-                            return loopDetector.doesLoop();
-                        });
+                    Day6LoopDetector loopDetector = new Day6LoopDetector(copy, start);
+                    if (loopDetector.doesLoop()) {
+                        result++;
                     }
                 }
             }
-
-            List<Future<Boolean>> results = executor.invokeAll(tasks);
-            for (Future<Boolean> taskResult : results) {
-                if (taskResult.get()) {
-                    result++;
-                }
-            }
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
         }
 
         return result;
