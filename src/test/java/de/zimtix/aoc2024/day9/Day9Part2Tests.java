@@ -23,7 +23,7 @@ class Day9Part2Tests extends PuzzleTest {
 
     @Override
     protected Object getExpectedRealResult() {
-        return 2858L;
+        return 6379677752410L;
     }
 
     @Override
