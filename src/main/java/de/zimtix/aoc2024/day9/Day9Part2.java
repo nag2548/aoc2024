@@ -1,13 +1,10 @@
 package de.zimtix.aoc2024.day9;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class Day9Part2 extends Day9 {
-    private int maxIndex = -1;
-    private Map<Integer, Integer> indexCountMap = new HashMap<>();
-
     public Day9Part2(List<String> lines) {
         super(lines);
     }
@@ -16,82 +13,73 @@ public class Day9Part2 extends Day9 {
     public Object getResult() {
         String line = lines.getFirst();
 
-        String disk = buildLongLine(line);
-        String defragmentedLine = swapNumbers(disk);
-        return getChecksum("00992111777.44.333....5555.6666.....8888..");
+        List<String> disk = buildLongLine(line);
+        List<String> defragmentedLine = swapNumbers(disk);
+        return getChecksum(defragmentedLine);
     }
 
-    private String buildLongLine(String line) {
-        StringBuilder sb = new StringBuilder();
-        int index = 0;
-        for (int i = 0; i < line.length(); i = i + 2) {
-            int left = Integer.parseInt(String.valueOf(line.charAt(i)));
-            indexCountMap.put(index, left);
-            while (left > 0) {
-                sb.append(index);
-                left--;
+    private List<String> swapNumbers(List<String> disks) {
+        int left;
+        int right = disks.size() - 1;
+
+        while (right > 0) {
+            String rightString = disks.get(right);
+            while (right > 0 && POINT.equals(rightString)) {
+                rightString = disks.get(--right);
             }
 
-            if (i + 1 < line.length()) {
-                int right = Integer.parseInt(String.valueOf(line.charAt(i + 1)));
-                while (right > 0) {
-                    sb.append(".");
-                    right--;
+            List<String> righties = new ArrayList<>();
+            righties.add(rightString);
+            int rightiesIndex = right;
+            while (rightiesIndex > 0 && disks.get(rightiesIndex - 1).equals(rightString)) {
+                righties.add(disks.get(--rightiesIndex));
+            }
+
+            int rightiesSize = righties.size();
+            left = getLeft(disks, rightiesIndex, rightiesSize);
+
+            if (left != -1) {
+                if (left < right) {
+                    for (String ignored : righties) {
+                        Collections.swap(disks, left, right);
+                        left++;
+                        right--;
+                    }
+                }
+            } else {
+                right = rightiesIndex - 1;
+            }
+        }
+
+        return disks;
+    }
+
+    private int getLeft(List<String> disks, int maxIndex, int rightSize) {
+        int left = 0;
+        String leftString;
+        while (left < disks.size() && left < maxIndex) {
+            leftString = disks.get(left);
+            while (!POINT.equals(leftString) && left < maxIndex) {
+                leftString = disks.get(++left);
+            }
+
+            if (POINT.equals(leftString)) {
+                boolean allPoint = true;
+                for (int i = left + 1; i < left + rightSize; i++) {
+                    if (!POINT.equals(disks.get(i)) || i >= maxIndex) {
+                        allPoint = false;
+                        break;
+                    }
+                }
+
+                if (allPoint) {
+                    return left;
+                } else {
+                    left++;
                 }
             }
-            index++;
         }
 
-        maxIndex = index - 1;
-        return sb.toString();
-    }
-
-    private String swapNumbers(String line) {
-        int left = 0;
-        int right = line.length() - 1;
-        char[] charArray = line.toCharArray();
-        int lastIndex = maxIndex;
-
-        while (left < right) {
-            char rightChar = charArray[right];
-            while (!Character.isDigit(rightChar)) {
-                rightChar = charArray[--right];
-            }
-            String rightNumber = String.valueOf(rightChar);
-            while (!rightNumber.equals(String.valueOf(lastIndex))) {
-                rightNumber = charArray[--right] + rightNumber;
-            }
-            int count = indexCountMap.get(lastIndex) - 1;
-            indexCountMap.put(lastIndex, count);
-            if (count == 0) {
-                lastIndex--;
-            }
-
-            left = new String(charArray).indexOf(".".repeat(rightNumber.length()));
-
-            for (int i = 0; i < rightNumber.length(); i++) {
-                char tmp = charArray[right];
-                charArray[right] = charArray[left];
-                charArray[left] = tmp;
-                left++;
-                right--;
-            }
-
-            left = new String(charArray).indexOf(".");
-        }
-
-        return new String(charArray);
-    }
-
-    private long getChecksum(String defragmentedLine) {
-        long result = 0;
-        for (int i = 0; i < defragmentedLine.length(); i++) {
-            char c = defragmentedLine.charAt(i);
-            if (Character.isDigit(c)) {
-                int digit = Integer.parseInt(String.valueOf(c));
-                result += (long) i * digit;
-            }
-        }
-        return result;
+        return -1;
     }
 }
