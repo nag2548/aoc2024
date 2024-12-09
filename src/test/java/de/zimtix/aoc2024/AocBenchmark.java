@@ -2,7 +2,6 @@ package de.zimtix.aoc2024;
 
 import de.zimtix.FileInputTest;
 import de.zimtix.aoc2024.day5.Day5Part2;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Level;
@@ -19,7 +18,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class AocBenchmark implements FileInputTest {
-    @Disabled
     @Test
     public void launchBenchmark() throws Exception {
         Options opt = new OptionsBuilder()
@@ -29,7 +27,7 @@ public class AocBenchmark implements FileInputTest {
                 .warmupTime(TimeValue.seconds(1))
                 .warmupIterations(3)
                 .measurementTime(TimeValue.seconds(1))
-                .measurementIterations(1)
+                .measurementIterations(3)
                 .threads(2)
                 .forks(1)
                 .shouldFailOnError(true)
