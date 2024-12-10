@@ -18,12 +18,12 @@ class Day10Part2Tests extends PuzzleTest {
 
     @Override
     protected Object getExpectedSampleResult() {
-        return -1;
+        return 81;
     }
 
     @Override
     protected Object getExpectedRealResult() {
-        return -1;
+        return 1541;
     }
 
     @Override
