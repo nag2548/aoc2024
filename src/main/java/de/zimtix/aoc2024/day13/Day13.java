@@ -19,7 +19,7 @@ public abstract class Day13 extends Puzzle {
         super(lines);
     }
 
-    protected void init(long priceAddition) {
+    protected void init(long offset) {
         Iterator<String> iterator = lines.iterator();
         while (iterator.hasNext()) {
             int count = 3;
@@ -35,8 +35,8 @@ public abstract class Day13 extends Puzzle {
             Day13Button a = createButton(gameLines.getFirst(), "Button A: ", "+");
             Day13Button b = createButton(gameLines.get(1), "Button B: ", "+");
             Day13Button prize = createButton(gameLines.get(2), "Prize: ", "=");
-            prize.setX(prize.getX().add(BigDecimal.valueOf(priceAddition)));
-            prize.setY(prize.getY().add(BigDecimal.valueOf(priceAddition)));
+            prize.setX(prize.getX().add(BigDecimal.valueOf(offset)));
+            prize.setY(prize.getY().add(BigDecimal.valueOf(offset)));
             games.add(new Day13Game(a, b, prize));
         }
     }

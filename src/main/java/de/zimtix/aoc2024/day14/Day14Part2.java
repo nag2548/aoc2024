@@ -1,9 +1,11 @@
 package de.zimtix.aoc2024.day14;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Day14Part2 extends Day14 {
-    private int safetyFactor = Integer.MAX_VALUE;
+    private final Map<Integer, Integer> safetyFactorMap = new HashMap<>();
 
     public Day14Part2(List<String> lines, int sizeY, int sizeX) {
         super(lines, sizeY, sizeX);
@@ -13,16 +15,23 @@ public class Day14Part2 extends Day14 {
     public Object getResult() {
         init();
         int count = 1;
-        while (count < 10001) {
-            System.out.println("######## Count: " + count + "########");
-            calculateNextPositions();
+        while (count < sizeX * sizeY + 1) {
+            calculateNextPositions(count);
             count++;
         }
 
-        return null;
+        Map.Entry<Integer, Integer> min = safetyFactorMap.entrySet().stream()
+                .min(Map.Entry.comparingByValue())
+                .orElseThrow();
+
+        int iterations = min.getKey();
+        calculateEndpositions(iterations);
+        print();
+
+        return iterations;
     }
 
-    private void calculateNextPositions() {
+    private void calculateNextPositions(int iteration) {
         for (Day14Robot robot : robots) {
             Day14Coordinate coordinate = robot.getCoordinate();
             Day14Coordinate velocity = robot.getVelocity();
@@ -34,10 +43,7 @@ public class Day14Part2 extends Day14 {
         }
 
         int currentSafetyFactor = getSafetyFactor();
-        if (currentSafetyFactor < safetyFactor) {
-            print();
-            safetyFactor = currentSafetyFactor;
-        }
+        safetyFactorMap.put(iteration, currentSafetyFactor);
     }
 
     private void print() {

@@ -54,6 +54,18 @@ public abstract class Day14 extends Puzzle {
         return q1 * q2 * q3 * q4;
     }
 
+    protected void calculateEndpositions(int iterations) {
+        for (Day14Robot robot : robots) {
+            Day14Coordinate coordinate = robot.getCoordinate();
+            Day14Coordinate velocity = robot.getVelocity();
+
+            int endY = mod(coordinate.getY() + velocity.getY() * iterations, sizeY);
+            int endX = mod(coordinate.getX() + velocity.getX() * iterations, sizeX);
+            robot.setY(endY);
+            robot.setX(endX);
+        }
+    }
+
     protected int mod(int a, int b) {
         int r = a % b;
         return r < 0 ? r + b : r;

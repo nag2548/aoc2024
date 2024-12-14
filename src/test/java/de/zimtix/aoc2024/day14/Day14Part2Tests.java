@@ -16,6 +16,6 @@ class Day14Part2Tests implements FileInputTest {
 
         Object result = cut.getResult();
 
-        assertThat(result).isEqualTo(null);
+        assertThat(result).isEqualTo(6620);
     }
 }
