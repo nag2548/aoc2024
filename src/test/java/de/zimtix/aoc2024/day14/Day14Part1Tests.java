@@ -1,33 +1,31 @@
 package de.zimtix.aoc2024.day14;
 
+import de.zimtix.FileInputTest;
 import de.zimtix.aoc2024.Puzzle;
-import de.zimtix.aoc2024.PuzzleTest;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-class Day14Part1Tests extends PuzzleTest {
-    @Override
-    protected String getSampleInputFile() {
-        return "day14/sample.txt";
+import static org.assertj.core.api.Assertions.assertThat;
+
+class Day14Part1Tests implements FileInputTest {
+    @Test
+    void sample() {
+        List<String> lines = readLines("day14/sample.txt");
+        Puzzle cut = new Day14Part1(lines, 7, 11);
+
+        Object result = cut.getResult();
+
+        assertThat(result).isEqualTo(12);
     }
 
-    @Override
-    protected String getRealInputFile() {
-        return "day14/real.txt";
-    }
+    @Test
+    void real() {
+        List<String> lines = readLines("day14/real.txt");
+        Puzzle cut = new Day14Part1(lines, 103, 101);
 
-    @Override
-    protected Object getExpectedSampleResult() {
-        return null;
-    }
+        Object result = cut.getResult();
 
-    @Override
-    protected Object getExpectedRealResult() {
-        return null;
-    }
-
-    @Override
-    protected Puzzle getComponent(List<String> lines) {
-        return new Day14Part1(lines);
+        assertThat(result).isEqualTo(12);
     }
 }
