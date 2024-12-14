@@ -49,9 +49,9 @@ public class Day14Part2 extends Day14 {
     private void print() {
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
-                String field = ".";
+                String field = "⬛";
                 if (hasRobots(y, x)) {
-                    field = "X";
+                    field = "🤖";
                 }
                 System.out.print(field);
             }
